@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task 2 - Intermediate HTML CSS JS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Intermediate HTML, CSS, and JavaScript</h1>
+
+<!-- 1️⃣ CONTACT FORM -->
+<section>
+  <h2>1. Contact Form</h2>
+
+  <form id="contactForm">
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="email" id="email" placeholder="Enter Email">
+    <textarea id="message" placeholder="Enter Message"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="formMsg"></p>
+</section>
+
+<!-- 4️⃣ TODO LIST -->
+<section>
+  <h2>4. Dynamic To-Do List</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add Task</button>
+
+  <ul id="taskList"></ul>
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
