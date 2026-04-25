@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced JS Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: teal;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    /* Quiz */
+    .quiz-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .carousel img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    /* API Data */
+    .api-data {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Advanced Styling & JavaScript Project</h1>
+</header>
+
+<div class="container">
+
+  <!-- Quiz -->
+  <div class="quiz-box">
+    <h2>Quiz</h2>
+    <p id="question"></p>
+    <div id="answers"></div>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
+
+  <!-- Carousel -->
+  <div class="carousel">
+    <img id="carousel-img" src="https://via.placeholder.com/400x200?text=1">
+    <button onclick="prevImg()">Prev</button>
+    <button onclick="nextImg()">Next</button>
+  </div>
+
+  <!-- API -->
+  <div class="api-data">
+    <h2>Random Joke (API)</h2>
+    <p id="joke">Click button to load joke</p>
+    <button onclick="getJoke()">Get Joke</button>
+  </div>
+
+</div>
+
+<script>
+  // Quiz Data
+  const quiz = [
+    { q: "What is JS?", a: ["Language", "Car", "Food"], correct: 0 },
+    { q: "CSS is used for?", a: ["Styling", "Database", "Server"], correct: 0 }
+  ];
+
+  let index = 0;
+
+  function loadQuestion() {
+    document.getElementById("question").innerText = quiz[index].q;
+    let answersHTML = "";
+    quiz[index].a.forEach((ans, i) => {
+      answersHTML += `<button onclick="checkAnswer(${i})">${ans}</button><br>`;
+    });
+    document.getElementById("answers").innerHTML = answersHTML;
+  }
+
+  function checkAnswer(i) {
+    if (i === quiz[index].correct) {
+      alert("Correct!");
+    } else {
+      alert("Wrong!");
+    }
+  }
+
+  function nextQuestion() {
+    index = (index + 1) % quiz.length;
+    loadQuestion();
+  }
+
+  loadQuestion();
+
+  // Carousel
+  const images = [
+    "https://via.placeholder.com/400x200?text=1",
+    "https://via.placeholder.com/400x200?text=2",
+    "https://via.placeholder.com/400x200?text=3"
+  ];
+
+  let imgIndex = 0;
+
+  function showImg() {
+    document.getElementById("carousel-img").src = images[imgIndex];
+  }
+
+  function nextImg() {
+    imgIndex = (imgIndex + 1) % images.length;
+    showImg();
+  }
+
+  function prevImg() {
+    imgIndex = (imgIndex - 1 + images.length) % images.length;
+    showImg();
+  }
+
+  // API Fetch
+  async function getJoke() {
+    const res = await fetch("https://official-joke-api.appspot.com/random_joke");
+    const data = await res.json();
+    document.getElementById("joke").innerText = data.setup + " - " + data.punchline;
+  }
+</script>
+
+</body>
+</html>
