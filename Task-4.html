@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Project</title>
+  <style>
+    body { font-family: Arial; margin: 0; }
+    nav { background: #333; padding: 10px; }
+    nav a { color: white; margin: 10px; text-decoration: none; }
+    section { padding: 20px; display: none; }
+    .active { display: block; }
+    .card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" onclick="show('home')">Home</a>
+  <a href="#" onclick="show('about')">About</a>
+  <a href="#" onclick="show('projects')">Projects</a>
+  <a href="#" onclick="show('contact')">Contact</a>
+</nav>
+
+<section id="home" class="active">
+  <h1>Welcome to My Portfolio</h1>
+</section>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p>I am a developer skilled in HTML, CSS, JavaScript.</p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+
+  <h3>1. To-Do App</h3>
+  <input id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+  <ul id="taskList"></ul>
+
+  <h3>2. Product Listing</h3>
+  <select onchange="filterProducts(this.value)">
+    <option value="all">All</option>
+    <option value="low">Price < 50</option>
+    <option value="high">Price >= 50</option>
+  </select>
+  <div id="products"></div>
+
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email:sruthikatikam06@email.com</p>
+</section>
+
+<script>
+function show(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ToDo App with Local Storage
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+function renderTasks() {
+  const list = document.getElementById('taskList');
+  list.innerHTML = '';
+  tasks.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.textContent = t;
+    li.onclick = () => deleteTask(i);
+    list.appendChild(li);
+  });
+}
+
+function addTask() {
+  const input = document.getElementById('taskInput');
+  tasks.push(input.value);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  input.value = '';
+  renderTasks();
+}
+
+function deleteTask(i) {
+  tasks.splice(i,1);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
+}
+
+renderTasks();
+
+// Product Listing
+const products = [
+  {name:'Phone', price:100},
+  {name:'Headphones', price:30},
+  {name:'Laptop', price:500}
+];
+
+function displayProducts(list) {
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  list.forEach(p => {
+    const div = document.createElement('div');
+    div.className='card';
+    div.innerHTML = `<h4>${p.name}</h4><p>Price: $${p.price}</p>`;
+    container.appendChild(div);
+  });
+}
+
+function filterProducts(type) {
+  if(type==='low') displayProducts(products.filter(p=>p.price<50));
+  else if(type==='high') displayProducts(products.filter(p=>p.price>=50));
+  else displayProducts(products);
+}
+
+displayProducts(products);
+</script>
+
+</body>
+</html>
